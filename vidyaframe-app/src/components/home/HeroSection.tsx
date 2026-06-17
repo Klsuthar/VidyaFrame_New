@@ -4,10 +4,29 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { stats } from '@/lib/data';
 
+const cardConfigs = [
+  {
+    iconBg: 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400',
+    glowBg: 'bg-emerald-500',
+  },
+  {
+    iconBg: 'bg-cyan-500/10 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400',
+    glowBg: 'bg-cyan-500',
+  },
+  {
+    iconBg: 'bg-violet-500/10 text-violet-600 dark:bg-violet-500/20 dark:text-violet-400',
+    glowBg: 'bg-violet-500',
+  },
+  {
+    iconBg: 'bg-pink-500/10 text-pink-600 dark:bg-pink-500/20 dark:text-pink-400',
+    glowBg: 'bg-pink-500',
+  },
+];
+
 export function HeroSection() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const [counters, setCounters] = useState<number[]>([0, 0, 0, 0]);
+  const [counters, setCounters] = useState<number[]>(new Array(stats.length).fill(0));
   const statsRef = useRef<HTMLDivElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
@@ -17,7 +36,7 @@ export function HeroSection() {
       (entries) => {
         if (entries[0].isIntersecting && !hasAnimated) {
           setHasAnimated(true);
-          const targets = [10000, 5000, 500, 25000];
+          const targets = stats.map((s) => parseInt(s.value.replace(/,/g, ''), 10) || 0);
           const duration = 2000;
           const steps = 60;
           const interval = duration / steps;
@@ -73,7 +92,7 @@ export function HeroSection() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-1.5 text-sm text-[var(--muted-foreground)] mb-6 animate-fade-in shadow-sm">
           <span className="h-2 w-2 rounded-full bg-[#0cc87d] animate-pulse" />
-          10,000+ Resources for Indian Schools
+          1,700+ Resources for Indian Schools
         </div>
 
         {/* Headline */}
@@ -138,19 +157,40 @@ export function HeroSection() {
 
         {/* Stats */}
         <div ref={statsRef} className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-          {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className="glass-card p-4 sm:p-6 text-center animate-fade-in"
-              style={{ animationDelay: `${0.8 + i * 0.1}s` }}
-            >
-              <div className="text-2xl mb-1">{stat.icon}</div>
-              <div className="text-2xl sm:text-3xl font-bold gradient-text" style={{ fontFamily: 'var(--font-outfit)' }}>
-                {counters[i].toLocaleString()}{stat.suffix}
+          {stats.map((stat, i) => {
+            const config = cardConfigs[i % cardConfigs.length];
+            return (
+              <div
+                key={stat.label}
+                className="stats-card group p-5 sm:p-6 text-center animate-fade-in cursor-default"
+                style={{ animationDelay: `${0.8 + i * 0.1}s` }}
+              >
+                {/* Custom Glow Background on Hover */}
+                <div className={`stats-card-bg-glow ${config.glowBg}`} />
+                
+                {/* Animated Icon Wrapper */}
+                <div className={`stats-icon-wrapper ${stat.icon.startsWith('/') ? 'is-image' : `${config.iconBg} overflow-hidden p-2`}`}>
+                  {stat.icon.startsWith('/') ? (
+                    <img 
+                      src={stat.icon} 
+                      alt={stat.label} 
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" 
+                    />
+                  ) : (
+                    <span className="text-xl sm:text-2xl">{stat.icon}</span>
+                  )}
+                </div>
+                
+                {/* Value/Number */}
+                <div className="text-2xl sm:text-3xl font-bold gradient-text relative z-10" style={{ fontFamily: 'var(--font-outfit)' }}>
+                  {counters[i]?.toLocaleString() || 0}{stat.suffix}
+                </div>
+                
+                {/* Label */}
+                <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium mt-1 relative z-10">{stat.label}</div>
               </div>
-              <div className="text-xs sm:text-sm text-[var(--muted-foreground)] mt-1">{stat.label}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

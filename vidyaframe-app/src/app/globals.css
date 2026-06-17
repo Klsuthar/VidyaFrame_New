@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ─── LIGHT THEME (default) ────────────────────────────── */
 :root {
   --background: #ffffff;
@@ -22,7 +24,7 @@
 }
 
 /* ─── DARK THEME ───────────────────────────────────────── */
-[data-theme="dark"] {
+.dark {
   --background: #020617;
   --foreground: #f1f5f9;
   --card: #0f172a;
@@ -41,31 +43,23 @@
   --gradient-mid: #07a3d1;
   --gradient-end: #1d65ff;
 }
-
-/* Also support system-level dark via media query when no data-theme set */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --background: #020617;
-    --foreground: #f1f5f9;
-    --card: #0f172a;
-    --card-foreground: #f1f5f9;
-    --primary: #07a3d1;
-    --primary-foreground: #ffffff;
-    --secondary: #1e293b;
-    --secondary-foreground: #cbd5e1;
-    --muted: #0f172a;
-    --muted-foreground: #94a3b8;
-    --accent: #042f2e;
-    --accent-foreground: #5eead4;
-    --border: #1e293b;
-    --ring: #07a3d1;
-    --gradient-start: #0cc87d;
-    --gradient-mid: #07a3d1;
-    --gradient-end: #1d65ff;
-  }
+/* ─── GLASS EFFECT ─────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-@theme inline {
+.dark .glass {
+  background: rgba(2, 6, 23, 0.85);
+}
+
+/* ─── SUBTLE GRADIENT BG ────────────────────────────────── */
+.gradient-bg-subtle {
+  background: linear-gradient(180deg, var(--background) 0%, color-mix(in srgb, var(--muted) 40%, var(--background)) 100%);
+}
+
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -82,9 +76,33 @@
   --color-ring: var(--ring);
   --font-sans: var(--font-inter);
   --font-heading: var(--font-outfit);
+
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-scale-in: scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-blob: blob 7s infinite;
+  --animate-slide-up: slide-up 0.5s ease-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scale-in {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { transform: translateY(12px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes blob {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(25px, -25px) scale(1.1); }
+    66% { transform: translate(-15px, 15px) scale(0.95); }
+  }
 }
 
 /* ─── BASE STYLES ──────────────────────────────────────── */
+html,
 body {
   background: var(--background);
   color: var(--foreground);
@@ -129,7 +147,7 @@ body {
   border: 1px solid var(--border);
 }
 
-[data-theme="dark"] .glass-card {
+.dark .glass-card {
   background: rgba(15, 23, 42, 0.7);
 }
 
@@ -210,4 +228,98 @@ body {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
+}
+
+/* ─── STATS CARD PREMIUM DESIGN ────────────────────────── */
+.stats-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 1;
+}
+
+.dark .stats-card {
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.stats-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  padding: 1.5px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.stats-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 20px 40px -15px rgba(7, 163, 209, 0.12);
+}
+
+.dark .stats-card:hover {
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: 0 20px 40px -15px rgba(7, 163, 209, 0.25);
+}
+
+.stats-card:hover::before {
+  opacity: 1;
+}
+
+.stats-card-bg-glow {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  filter: blur(45px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+  bottom: -40px;
+  right: -40px;
+}
+
+.stats-card:hover .stats-card-bg-glow {
+  opacity: 0.18;
+}
+
+.dark .stats-card:hover .stats-card-bg-glow {
+  opacity: 0.14;
+}
+
+.stats-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  margin-bottom: 0.75rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.stats-icon-wrapper.is-image {
+  background: transparent !important;
+  box-shadow: none !important;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stats-card:hover .stats-icon-wrapper {
+  transform: scale(1.15) rotate(6deg);
 }

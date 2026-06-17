@@ -24,6 +24,7 @@ export interface Asset {
   views: number;
   createdAt: string;
   language?: string;
+  hasRealMaster?: boolean;
 }
 
 export interface Category {

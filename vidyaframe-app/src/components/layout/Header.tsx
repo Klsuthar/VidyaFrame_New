@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/components/shared/ThemeProvider';
+import { useBranding } from '@/components/shared/BrandingContext';
 import { navItems } from '@/lib/data';
 
 export function Header() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { profile, isLoaded, openBrandingModal } = useBranding();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -47,14 +49,17 @@ export function Header() {
         <div className="flex h-16 items-center justify-between md:h-18">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#0cc87d] via-[#07a3d1] to-[#1d65ff] shadow-lg shadow-cyan-500/25 transition-transform duration-300 group-hover:scale-110">
-              <span className="text-lg font-bold text-white" style={{ fontFamily: 'var(--font-outfit)' }}>V</span>
-            </div>
+            <img 
+              src="/favicon.svg" 
+              alt="VidyaFrame Logo" 
+              className="h-9 w-9 transition-transform duration-300 group-hover:scale-110"
+            />
             <span
-              className="text-xl font-bold gradient-text hidden sm:block"
+              className="text-xl font-bold hidden sm:block"
               style={{ fontFamily: 'var(--font-outfit)' }}
             >
-              VidyaFrame
+              <span className="text-[#07a3d1]">Vidya</span>
+              <span className="text-[#0cc87d]">Frame</span>
             </span>
           </Link>
 
@@ -126,6 +131,33 @@ export function Header() {
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
+              </button>
+            )}
+
+            {/* Profile / Branding Setup Toggle */}
+            {isLoaded && profile ? (
+              <button
+                onClick={openBrandingModal}
+                className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#0cc87d] to-[#07a3d1] hover:scale-105 transition-all duration-300 text-white font-bold text-xs flex items-center justify-center shadow-md shadow-cyan-500/10 shrink-0 border border-white/20 cursor-pointer"
+                aria-label="Branding Settings"
+                title={`Logged in as ${profile.userName}`}
+              >
+                {profile.userName ? profile.userName.slice(0, 2).toUpperCase() : 'ME'}
+              </button>
+            ) : (
+              <button
+                onClick={openBrandingModal}
+                className="relative rounded-xl p-2.5 text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)] transition-all duration-300 hover:scale-105 shrink-0 cursor-pointer"
+                aria-label="Setup Branding Settings"
+                title="Setup School Branding"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
               </button>
             )}
 

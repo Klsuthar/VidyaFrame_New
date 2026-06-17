@@ -18,9 +18,18 @@ export function AssetCard({ asset, variant = 'default' }: AssetCardProps) {
       <Link href={href} className="group block">
         <div className="glass-card overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
           {/* Thumbnail */}
-          <div className={`aspect-[4/3] bg-gradient-to-br ${gradient} flex items-center justify-center relative overflow-hidden`}>
-            <span className="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-300">{icon}</span>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          <div className={`aspect-[4/3] bg-gradient-to-br ${gradient} flex items-center justify-center relative overflow-hidden p-2`}>
+            {asset.imagePreviewUrl ? (
+              <img
+                src={asset.imagePreviewUrl}
+                alt={asset.title}
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+            ) : (
+              <span className="text-3xl opacity-80 group-hover:scale-110 transition-transform duration-300">{icon}</span>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
           </div>
           {/* Info */}
           <div className="p-3">
@@ -38,24 +47,33 @@ export function AssetCard({ asset, variant = 'default' }: AssetCardProps) {
     <Link href={href} className="group block">
       <div className="glass-card overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-[var(--primary)]/5 gradient-border">
         {/* Thumbnail */}
-        <div className={`aspect-[3/4] bg-gradient-to-br ${gradient} flex items-center justify-center relative overflow-hidden`}>
-          <div className="text-center">
-            <span className="text-5xl block mb-2 group-hover:scale-110 transition-transform duration-500">{icon}</span>
-            <span className="text-white/80 text-xs font-medium px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
-              {asset.category}
-            </span>
-          </div>
+        <div className={`aspect-[3/4] bg-gradient-to-br ${gradient} flex items-center justify-center relative overflow-hidden p-3`}>
+          {asset.imagePreviewUrl ? (
+            <img
+              src={asset.imagePreviewUrl}
+              alt={asset.title}
+              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+          ) : (
+            <div className="text-center">
+              <span className="text-5xl block mb-2 group-hover:scale-110 transition-transform duration-500">{icon}</span>
+              <span className="text-white/80 text-xs font-medium px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm">
+                {asset.category}
+              </span>
+            </div>
+          )}
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
           {/* Class badge */}
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-10">
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 text-[var(--foreground)] shadow-sm backdrop-blur-sm">
               {getClassLabel(asset.classLevel)}
             </span>
           </div>
           {/* Priority indicator */}
           {asset.priority === 'High' && (
-            <div className="absolute top-3 right-3">
+            <div className="absolute top-3 right-3 z-10">
               <span className="text-xs px-2 py-0.5 rounded-full bg-amber-400/90 text-amber-950 font-medium">
                 ⭐ Popular
               </span>
@@ -65,12 +83,9 @@ export function AssetCard({ asset, variant = 'default' }: AssetCardProps) {
 
         {/* Content */}
         <div className="p-4">
-          <h3 className="font-semibold text-[var(--card-foreground)] group-hover:text-[var(--primary)] transition-colors line-clamp-2 mb-2 text-sm leading-snug">
+          <h3 className="font-semibold text-[var(--card-foreground)] group-hover:text-[var(--primary)] transition-colors line-clamp-2 mb-3 text-sm leading-snug">
             {asset.title}
           </h3>
-          <p className="text-xs text-[var(--muted-foreground)] line-clamp-2 mb-3 leading-relaxed">
-            {asset.description}
-          </p>
 
           {/* Meta */}
           <div className="flex items-center justify-between">

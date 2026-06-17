@@ -86,7 +86,7 @@ export function SearchPageContent() {
           Search <span className="gradient-text">Resources</span>
         </h1>
         <p className="text-sm sm:text-base text-[var(--muted-foreground)]">
-          Search over 15,000 printable educational charts, worksheets, and certificates.
+          Search over 1,700 printable educational charts, worksheets, and certificates.
         </p>
       </div>
 
@@ -200,7 +200,7 @@ export function SearchPageContent() {
 
       {/* Results Grid */}
       {results.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {results.map((asset) => (
             <AssetCard key={asset.id} asset={asset} />
           ))}

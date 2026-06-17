@@ -35,11 +35,14 @@ export function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#0cc87d] via-[#07a3d1] to-[#1d65ff] shadow-lg shadow-cyan-500/25">
-                <span className="text-xl font-bold text-white" style={{ fontFamily: 'var(--font-outfit)' }}>V</span>
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-[#0cc87d] via-[#07a3d1] to-[#1d65ff] bg-clip-text text-transparent" style={{ fontFamily: 'var(--font-outfit)' }}>
-                VidyaFrame
+              <img 
+                src="/favicon.svg" 
+                alt="VidyaFrame Logo" 
+                className="h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              />
+              <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-outfit)' }}>
+                <span className="text-[#07a3d1]">Vidya</span>
+                <span className="text-[#0cc87d]">Frame</span>
               </span>
             </Link>
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">

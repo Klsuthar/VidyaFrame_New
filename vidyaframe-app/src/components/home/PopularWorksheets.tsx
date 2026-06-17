@@ -30,7 +30,7 @@ export function PopularWorksheets() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {worksheets.map((asset, i) => (
             <div key={asset.id} className="animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
               <AssetCard asset={asset} />

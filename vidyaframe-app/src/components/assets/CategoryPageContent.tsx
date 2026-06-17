@@ -105,19 +105,21 @@ export function CategoryPageContent({ categorySlug }: CategoryPageContentProps) 
       <Breadcrumbs items={[{ label: `${catName}s`, href: `/${categorySlug}` }]} />
 
       {/* Category Hero Banner */}
-      <div className={`relative rounded-3xl overflow-hidden bg-gradient-to-r ${catGradient} p-8 sm:p-12 text-white mb-12 shadow-xl shadow-cyan-500/5`}>
-        <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        <div className="relative z-10 max-w-3xl">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md text-3xl mb-6 shadow-inner">
-            {catIcon}
+      <div className={`relative rounded-2xl overflow-hidden bg-gradient-to-r ${catGradient} p-5 sm:p-6 text-white mb-6 shadow-md shadow-cyan-500/5`}>
+        <div className="absolute top-0 right-0 -translate-y-1/3 translate-x-1/3 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col gap-1.5 max-w-3xl">
+          <div className="flex items-center gap-3">
+            <span className="h-9 w-9 rounded-xl bg-white/20 backdrop-blur-md text-xl flex items-center justify-center shadow-inner shrink-0 animate-float">
+              {catIcon}
+            </span>
+            <h1 
+              className="text-xl sm:text-2xl font-bold tracking-tight"
+              style={{ fontFamily: 'var(--font-outfit)' }}
+            >
+              Educational {catName}s
+            </h1>
           </div>
-          <h1 
-            className="text-3xl sm:text-5xl font-bold tracking-tight mb-4"
-            style={{ fontFamily: 'var(--font-outfit)' }}
-          >
-            Educational {catName}s
-          </h1>
-          <p className="text-white/90 text-base sm:text-lg leading-relaxed max-w-2xl">
+          <p className="text-white/85 text-xs sm:text-sm leading-relaxed max-w-2xl mt-1">
             {category?.description || `Explore our high-quality printable ${categorySlug} for primary classes. Apply your school logo and colors with one click before downloading.`}
           </p>
         </div>
@@ -272,7 +274,7 @@ export function CategoryPageContent({ categorySlug }: CategoryPageContentProps) 
 
           {/* Grid */}
           {paginatedAssets.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
               {paginatedAssets.map((asset) => (
                 <AssetCard key={asset.id} asset={asset} />
               ))}
