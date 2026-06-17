@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Asset {
+  id              String         @id @default(cuid())
+  title           String
+  slug            String         @unique
+  description     String
+  category        Category       @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  topic           Topic          @relation(fields: [topicId], references: [id])
+  topicId         String
+  classLevel      String         // e.g. "Nursery", "LKG", "UKG", "1", "2", "3", "4", "5"
+  language        String         @default("English")
+  tags            Tag[]
+  suggestedImages String         @default("preview,master,pdf,png") // comma-separated values
+  imagePreviewUrl String
+  imageMasterUrl  String
+  downloads       Int            @default(0)
+  views           Int            @default(0)
+  priority        Priority       @default(Medium)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([topicId])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique // Chart, Worksheet, Certificate, Poster
+  slug        String   @unique
+  description String
+  icon        String
+  gradient    String
+  assets      Asset[]
+  createdAt   DateTime @default(now())
+}
+
+model Topic {
+  id        String   @id @default(cuid())
+  name      String   @unique // Counting, Number Names, Shapes, Colors, etc.
+  assets    Asset[]
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  assets    Asset[]
+  createdAt DateTime @default(now())
+}
+
+model School {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  brandProfile BrandProfile?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model BrandProfile {
+  id          String   @id @default(cuid())
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  schoolId    String   @unique
+  logoUrl     String?
+  primaryColor String  @default("#0cc87d") // Hex value
+  tagline     String?  // Optional tagline printed on resources
+  updatedAt   DateTime @updatedAt
+}
+
+enum Priority {
+  Low
+  Medium
+  High
+}

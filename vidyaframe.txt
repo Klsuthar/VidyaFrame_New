@@ -1,0 +1,416 @@
+You are a Senior Staff Engineer, SEO Architect, Product Designer, and SaaS Platform Architect.
+
+Build a production-ready educational platform called "VidyaFrame".
+
+This is NOT a demo project.
+
+This must be designed as a scalable real-world business capable of handling:
+
+* 100,000+ educational assets
+* millions of monthly page views
+* thousands of SEO landing pages
+* school branding customization
+* PDF export
+* fast search
+* mobile-first experience
+
+---
+
+## CORE PRODUCT IDEA
+
+VidyaFrame is an educational resource platform where teachers and schools can:
+
+1. Browse educational charts
+2. Browse worksheets
+3. Browse certificates
+4. Browse posters
+5. Apply school branding
+6. Download PDF/PNG
+
+The main focus is NOT AI generation.
+
+The main focus is:
+
+* Ready-made educational resources
+* Fast download
+* School branding
+* Huge searchable library
+
+---
+
+## TECH STACK
+
+Use:
+
+* Next.js latest App Router
+* TypeScript
+* Tailwind CSS
+* Shadcn UI
+* PostgreSQL
+* Prisma ORM
+* Meilisearch
+* Cloudflare R2 Storage
+* Vercel Deployment
+* Next SEO
+* Next Sitemap
+
+Do NOT use Firebase Firestore as the primary database.
+
+Reason:
+
+Target scale is 100,000+ assets.
+
+---
+
+## SEO ARCHITECTURE
+
+SEO is the highest priority.
+
+Every asset must have its own URL.
+
+Examples:
+
+/chart/counting-chart-1-to-10
+
+/chart/counting-chart-1-to-20
+
+/chart/animal-counting-chart
+
+/worksheet/class-1-addition-worksheet
+
+/certificate/student-of-the-month
+
+/poster/independence-day-poster
+
+Generate:
+
+* title tags
+* meta descriptions
+* canonical URLs
+* OpenGraph tags
+* Twitter cards
+* JSON-LD schema
+
+---
+
+## SITE STRUCTURE
+
+Homepage
+
+Charts
+
+Worksheets
+
+Certificates
+
+Posters
+
+Search
+
+Category Pages
+
+Individual Asset Pages
+
+---
+
+## URL STRUCTURE
+
+Homepage
+
+/
+
+Category Pages
+
+/charts
+/worksheets
+/certificates
+/posters
+
+Topic Pages
+
+/charts/counting
+/charts/alphabet
+/charts/animals
+
+Individual Assets
+
+/chart/counting-chart-1-to-10
+
+/chart/counting-chart-1-to-20
+
+/chart/counting-chart-1-to-100
+
+---
+
+## DATABASE DESIGN
+
+Create proper database schema.
+
+Asset Table
+
+* id
+* title
+* slug
+* category
+* topic
+* class
+* language
+* tags
+* description
+* imagePreviewUrl
+* imageMasterUrl
+* downloads
+* views
+* createdAt
+
+Topics Table
+
+Categories Table
+
+Tags Table
+
+Schools Table
+
+Brand Profiles Table
+
+---
+
+## SEARCH SYSTEM
+
+Use Meilisearch.
+
+Teacher searches:
+
+"counting chart"
+
+"animal chart"
+
+"ukg worksheet"
+
+"class 1 maths"
+
+Search results must appear instantly.
+
+Implement:
+
+* typo tolerance
+* filters
+* categories
+* classes
+* languages
+
+---
+
+## IMAGE SYSTEM
+
+Store:
+
+preview.webp
+
+master.png
+
+Preview:
+
+* lightweight
+* optimized
+
+Master:
+
+* print quality
+
+Do NOT upscale on download.
+
+Store original high-resolution file.
+
+---
+
+## SCHOOL BRANDING SYSTEM
+
+School creates profile once.
+
+Stores:
+
+* school name
+* logo
+* address
+* phone
+* theme color
+
+When downloading:
+
+Automatically apply:
+
+* school logo
+* school name
+* footer
+
+No need to upload repeatedly.
+
+---
+
+## PDF ENGINE
+
+User clicks:
+
+Download PDF
+
+System generates:
+
+A4
+A3
+Portrait
+Landscape
+
+Printable output.
+
+---
+
+## MOBILE EXPERIENCE
+
+Do NOT simply shrink desktop UI.
+
+Create separate mobile layouts.
+
+Requirements:
+
+Mobile:
+
+* bottom navigation
+* card-based browsing
+* touch optimized
+* large thumbnails
+
+Desktop:
+
+* sidebar filters
+* large grid layout
+* multi-column browsing
+
+Design both independently.
+
+---
+
+## LANDING PAGE DESIGN
+
+Homepage must feel premium.
+
+Hero Section:
+
+Headline:
+
+Find Educational Charts, Worksheets & School Resources in Seconds
+
+Subheadline:
+
+Download ready-made classroom resources with your school branding.
+
+Sections:
+
+Featured Charts
+
+Popular Worksheets
+
+Trending Topics
+
+Browse By Class
+
+Browse By Subject
+
+Why Teachers Choose VidyaFrame
+
+Testimonials
+
+FAQ
+
+Footer
+
+---
+
+## ASSET PAGE DESIGN
+
+Large preview
+
+Download button
+
+Apply branding button
+
+Related charts
+
+Topic information
+
+SEO content section
+
+FAQ section
+
+Breadcrumbs
+
+---
+
+## ADMIN PANEL
+
+Admin uploads:
+
+* image
+* title
+* tags
+* category
+* class
+* topic
+
+System automatically:
+
+* generates slug
+* generates SEO metadata
+* updates sitemap
+* updates search index
+
+---
+
+## PERFORMANCE
+
+Target:
+
+LCP < 2 sec
+
+CLS < 0.1
+
+INP < 200ms
+
+Image lazy loading
+
+CDN delivery
+
+Server-side rendering
+
+Static generation where possible
+
+---
+
+## SCALABILITY
+
+Design for:
+
+100,000+ assets
+
+50,000+ SEO pages
+
+Millions of image requests
+
+Future AI integrations
+
+Build architecture accordingly.
+
+Generate:
+
+1. Folder structure
+2. Database schema
+3. Prisma schema
+4. Next.js app structure
+5. Search architecture
+6. SEO architecture
+7. Mobile wireframes
+8. Desktop wireframes
+9. API design
+10. Deployment architecture
+
+Provide complete production-ready planning before coding.

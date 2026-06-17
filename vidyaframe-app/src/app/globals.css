@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/* ─── LIGHT THEME (default) ────────────────────────────── */
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --primary: #07a3d1;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #334155;
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+  --accent: #f0fdfa;
+  --accent-foreground: #0f766e;
+  --border: #e2e8f0;
+  --ring: #07a3d1;
+  --gradient-start: #0cc87d;
+  --gradient-mid: #07a3d1;
+  --gradient-end: #1d65ff;
+}
+
+/* ─── DARK THEME ───────────────────────────────────────── */
+[data-theme="dark"] {
+  --background: #020617;
+  --foreground: #f1f5f9;
+  --card: #0f172a;
+  --card-foreground: #f1f5f9;
+  --primary: #07a3d1;
+  --primary-foreground: #ffffff;
+  --secondary: #1e293b;
+  --secondary-foreground: #cbd5e1;
+  --muted: #0f172a;
+  --muted-foreground: #94a3b8;
+  --accent: #042f2e;
+  --accent-foreground: #5eead4;
+  --border: #1e293b;
+  --ring: #07a3d1;
+  --gradient-start: #0cc87d;
+  --gradient-mid: #07a3d1;
+  --gradient-end: #1d65ff;
+}
+
+/* Also support system-level dark via media query when no data-theme set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background: #020617;
+    --foreground: #f1f5f9;
+    --card: #0f172a;
+    --card-foreground: #f1f5f9;
+    --primary: #07a3d1;
+    --primary-foreground: #ffffff;
+    --secondary: #1e293b;
+    --secondary-foreground: #cbd5e1;
+    --muted: #0f172a;
+    --muted-foreground: #94a3b8;
+    --accent: #042f2e;
+    --accent-foreground: #5eead4;
+    --border: #1e293b;
+    --ring: #07a3d1;
+    --gradient-start: #0cc87d;
+    --gradient-mid: #07a3d1;
+    --gradient-end: #1d65ff;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-outfit);
+}
+
+/* ─── BASE STYLES ──────────────────────────────────────── */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter, system-ui, -apple-system, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── SCROLLBAR ────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end));
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--gradient-mid), var(--gradient-end));
+}
+
+/* ─── GRADIENT TEXT UTILITY ────────────────────────────── */
+.text-brand-gradient,
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── GLASS CARD ───────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .glass-card {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+/* ─── BRAND GRADIENT BG ───────────────────────────────── */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+}
+
+/* ─── NAV LINK GRADIENT UNDERLINE ──────────────────────── */
+.nav-link-underline {
+  position: relative;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.nav-link-underline:hover::after,
+.nav-link-underline.active::after {
+  width: 100%;
+}
+
+/* ─── CHECKBOX GRADIENT ────────────────────────────────── */
+.checkbox-gradient {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.checkbox-gradient:checked {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  border-color: transparent;
+}
+
+.checkbox-gradient:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ─── FILTER SECTION COLLAPSE ──────────────────────────── */
+.filter-section-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.filter-section-content.open {
+  grid-template-rows: 1fr;
+}
+
+.filter-section-inner {
+  overflow: hidden;
+}
+
+/* ─── SAFE AREA (mobile bottom nav) ────────────────────── */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
